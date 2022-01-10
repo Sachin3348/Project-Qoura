@@ -1,14 +1,21 @@
-const express = require('express');
-var bodyParser = require('body-parser');
 
-const route = require('./routes/route.js');
+const express = require('express')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const cors = require('cors')
 
-const app = express();
+const route = require('./routes/route.js')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const app = express()
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors())
 app.use('/', route);
+
+mongoose.connect("mongodb+srv://user-open-to-all-trainees:AutogenerateSecurePassword@training-cluster.xohin.mongodb.net/Quora_DB?retryWrites=true&w=majority", {useNewUrlParser: true})
+    .then(() => console.log('mongodb running on 27017'))
+    .catch(err => console.log(err))
 
 app.listen(process.env.PORT || 3000, function() {
 	console.log('Express app running on port ' + (process.env.PORT || 3000))
